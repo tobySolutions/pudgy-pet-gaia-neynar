@@ -12,14 +12,37 @@ export async function GET(request: NextRequest) {
 
   return new ImageResponse(
     (
-      <div tw="flex h-full w-full flex-col justify-center items-center relative bg-primary">
-        {user?.pfp_url && (
-          <div tw="flex w-96 h-96 rounded-full overflow-hidden mb-8 border-8 border-white">
-            <img src={user.pfp_url} alt="Profile" tw="w-full h-full object-cover" />
-          </div>
-        )}
-        <h1 tw="text-8xl text-white">{user?.display_name ? `Hello from ${user.display_name ?? user.username}!` : 'Hello!'}</h1>
-        <p tw="text-5xl mt-4 text-white opacity-80">Powered by Neynar 🪐</p>
+      <div tw="flex h-full w-full flex-col justify-center items-center relative" style={{
+        background: 'linear-gradient(135deg, #F5FDFF 0%, #E9F7FB 50%, #FBE9F3 100%)'
+      }}>
+        {/* Pudgy Penguin Emoji as main visual */}
+        <div tw="flex text-[200px] mb-8">🐧</div>
+        
+        {/* Focus purely on Pudgy branding - no user PFP */}
+        
+        {/* Main Title */}
+        <h1 tw="text-7xl font-bold text-center mb-4" style={{
+          color: '#00142D',
+          textShadow: '2px 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          {user?.display_name ? `${user.display_name}'s Pudgy Pet!` : 'Meet Your Pudgy Pet!'}
+        </h1>
+        
+        {/* Subtitle */}
+        <p tw="text-4xl text-center mb-6" style={{
+          color: '#477DFD'
+        }}>
+          Your AI Penguin Companion ✨
+        </p>
+        
+        {/* Footer */}
+        <div tw="flex items-center text-2xl" style={{
+          color: '#00142D',
+          opacity: 0.8
+        }}>
+          <span tw="mr-2">🪐</span>
+          <span>Powered by Gaia AI</span>
+        </div>
       </div>
     ),
     {
