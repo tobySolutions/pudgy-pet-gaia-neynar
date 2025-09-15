@@ -13,6 +13,24 @@ export function Button({
   size = 'md',
   ...props 
 }: ButtonProps) {
+  // If custom classes are provided (starting with !), use them as-is
+  if (className.includes('!bg-gradient') || className.includes('!flex')) {
+    return (
+      <button
+        className={className}
+        {...props}
+      >
+        {isLoading ? (
+          <div className="flex items-center justify-center">
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          </div>
+        ) : (
+          children
+        )}
+      </button>
+    );
+  }
+
   const baseClasses = "btn";
   
   const variantClasses = {

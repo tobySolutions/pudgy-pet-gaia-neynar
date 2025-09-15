@@ -1,5 +1,24 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from './Button';
+import MarkdownMessage from './MarkdownMessage';
+import { 
+  FaHeart, 
+  FaGamepad, 
+  FaBed, 
+  FaUtensils,
+  FaCommentDots,
+  FaEye,
+  FaTimes,
+  FaPaperPlane,
+  FaTrash,
+  FaBatteryFull,
+  FaBatteryHalf,
+  FaBatteryQuarter,
+  FaBatteryEmpty,
+  FaSmile,
+  FaMeh,
+  FaSadTear
+} from 'react-icons/fa';
 
 interface PudgyStats {
   hunger: number;
@@ -142,36 +161,49 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
   };
 
   const getStatColor = (value: number) => {
-    if (value >= 80) return 'text-green-500';
-    if (value >= 50) return 'text-yellow-500';
-    if (value >= 30) return 'text-orange-500';
+    if (value >= 80) return 'text-pudgy-mint';
+    if (value >= 60) return 'text-pudgy-jasmine';
+    if (value >= 40) return 'text-pudgy-coral';
     return 'text-red-500';
   };
 
-  const getStatEmoji = (statName: string, value: number) => {
+  const getStatIcon = (statName: string, value: number) => {
     switch (statName) {
       case 'hunger':
-        return value >= 80 ? '🍎✨' : value >= 50 ? '🍎' : value >= 30 ? '🍽️' : '😋💔';
+        return <FaUtensils className={`text-lg ${getStatColor(value)}`} />;
       case 'happiness':
-        return value >= 80 ? '😍🌟' : value >= 50 ? '😊' : value >= 30 ? '😐' : '😢';
+        if (value >= 80) return <FaSmile className="text-lg text-pudgy-mint" />;
+        if (value >= 60) return <FaSmile className="text-lg text-pudgy-jasmine" />;
+        if (value >= 40) return <FaMeh className="text-lg text-pudgy-coral" />;
+        return <FaSadTear className="text-lg text-red-500" />;
       case 'energy':
-        return value >= 80 ? '⚡✨' : value >= 50 ? '⚡' : value >= 30 ? '🔋' : '😴💤';
+        if (value >= 80) return <FaBatteryFull className="text-lg text-pudgy-mint" />;
+        if (value >= 60) return <FaBatteryHalf className="text-lg text-pudgy-jasmine" />;
+        if (value >= 40) return <FaBatteryQuarter className="text-lg text-pudgy-coral" />;
+        return <FaBatteryEmpty className="text-lg text-red-500" />;
       default:
-        return '';
+        return null;
     }
+  };
+
+  const getStatGradient = (value: number) => {
+    if (value >= 80) return 'from-pudgy-mint to-green-400';
+    if (value >= 60) return 'from-pudgy-jasmine to-yellow-400';
+    if (value >= 40) return 'from-pudgy-coral to-orange-400';
+    return 'from-red-400 to-red-500';
   };
 
   if (isLoading && !petData) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center p-8 bg-gradient-to-br from-pudgy-blizzard via-pudgy-azure to-pudgy-lavender rounded-2xl border-2 border-pudgy-sky/30 shadow-xl">
         <div className="text-center">
-          <div className="text-6xl mb-4 animate-pulse">🐧</div>
-          <div className="text-base text-indigo-600 font-medium">Loading your Pudgy pet...</div>
-          <div className="mt-2">
+          <div className="text-6xl mb-4 animate-pulse filter drop-shadow-lg">🐧</div>
+          <div className="text-base text-pudgy-blue font-kvant tracking-wide">Loading your Pudgy pet...</div>
+          <div className="mt-3">
             <div className="flex justify-center space-x-1">
-              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-3 h-3 bg-pudgy-sky rounded-full animate-bounce shadow-sm"></div>
+              <div className="w-3 h-3 bg-pudgy-blue rounded-full animate-bounce shadow-sm" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-3 h-3 bg-pudgy-oxford rounded-full animate-bounce shadow-sm" style={{ animationDelay: '0.2s' }}></div>
             </div>
           </div>
         </div>
@@ -181,18 +213,20 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
 
   if (error) {
     return (
-      <div className="p-6 bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200 rounded-2xl shadow-lg">
+      <div className="p-6 bg-gradient-to-br from-pudgy-floral via-pudgy-lavender to-pudgy-coral/20 border-2 border-pudgy-coral/40 rounded-2xl shadow-xl">
         <div className="text-center">
-          <div className="text-4xl mb-3">😅</div>
-          <div className="font-semibold mb-2 text-red-800 text-lg">Oops!</div>
-          <div className="text-sm text-red-700 mb-4 leading-relaxed">{error}</div>
+          <div className="text-4xl mb-3 filter drop-shadow-sm">�💔</div>
+          <div className="font-trailers mb-2 text-pudgy-oxford text-lg">Oops! Your Pudgy needs help!</div>
+          <div className="text-sm text-pudgy-oxford/70 mb-4 leading-relaxed bg-white/50 p-3 rounded-lg">{error}</div>
           <Button
             onClick={loadPetStatus}
             variant="secondary"
             size="sm"
-            className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
+            className="bg-gradient-to-r from-pudgy-coral to-pudgy-plum hover:from-pudgy-plum hover:to-pudgy-coral text-white font-kvant py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
-            Try Again 🔄
+            <span className="flex items-center gap-2">
+              🔄 Try Again
+            </span>
           </Button>
         </div>
       </div>
@@ -204,42 +238,60 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 border-2 border-indigo-200 rounded-2xl p-6 shadow-xl">
+    <div className="w-full mx-auto bg-gradient-to-br from-pudgy-blizzard via-pudgy-azure to-pudgy-lavender border border-pudgy-sky/40 rounded-2xl p-3 shadow-xl backdrop-blur-sm">
       {/* Pet Avatar */}
-      <div className="text-center mb-6">
-        <div className="text-7xl mb-3 animate-bounce hover:animate-pulse transition-all duration-300 cursor-pointer">🐧</div>
-        <div className="text-xl font-bold text-gray-800 mb-1">Your Pudgy Pet</div>
-        <div className="text-sm font-medium text-indigo-600 capitalize bg-indigo-100 px-3 py-1 rounded-full inline-block">
-          Mood: {petData.stats.mood} ✨
+      <div className="text-center mb-4">
+        <div className="relative inline-block">
+          <div className="text-5xl mb-2 animate-bounce hover:animate-pulse transition-all duration-300 cursor-pointer filter drop-shadow-lg">
+            🐧
+          </div>
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-pudgy-mint to-pudgy-jasmine rounded-full border border-white shadow-lg flex items-center justify-center">
+            <div className="w-1 h-1 bg-white rounded-full animate-pulse"></div>
+          </div>
+        </div>
+        <div className="text-lg font-trailers text-pudgy-oxford mb-2 tracking-wide drop-shadow-sm">
+          Your Pudgy Pet
+        </div>
+        <div className="text-xs font-kvant text-pudgy-blue capitalize bg-gradient-to-r from-pudgy-sky/20 to-pudgy-blue/20 backdrop-blur-sm px-3 py-1 rounded-full inline-block border border-pudgy-sky/30 shadow-sm">
+          Mood: <span className="text-pudgy-oxford">{petData.stats.mood}</span> ✨
         </div>
       </div>
 
       {/* Pet Message - Only show if chat is closed */}
       {!showChat && (
-        <div className="bg-gradient-to-r from-white to-indigo-50 rounded-xl p-5 mb-6 border border-indigo-200 shadow-md backdrop-blur-sm">
-          <div className="text-base text-gray-800 leading-relaxed font-medium">
-            {petData.message}
+        <div className="bg-gradient-to-r from-pudgy-floral via-white to-pudgy-lavender rounded-xl p-3 mb-3 border border-pudgy-sky/30 shadow-lg backdrop-blur-sm">
+          <div className="flex items-start gap-2">
+            <div className="text-lg flex-shrink-0">🐧</div>
+            <div className="flex-1 min-w-0">
+              <MarkdownMessage 
+                content={petData.message} 
+                className="text-pudgy-oxford text-sm leading-relaxed"
+              />
+            </div>
           </div>
         </div>
       )}
 
       {/* Chat Interface */}
       {showChat && (
-        <div className="bg-white rounded-xl mb-6 border border-indigo-200 shadow-lg overflow-hidden backdrop-blur-sm">
+        <div className="bg-white/90 backdrop-blur-md rounded-xl mb-3 border border-pudgy-sky/30 shadow-lg overflow-hidden">
           {/* Chat Header */}
-          <div className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 px-5 py-3 border-b border-indigo-200">
+          <div className="bg-gradient-to-r from-pudgy-sky/20 via-pudgy-azure to-pudgy-lavender/30 px-3 py-2 border-b border-pudgy-sky/20">
             <div className="flex items-center justify-between">
-              <div className="text-sm font-semibold text-indigo-800">
-                💬 Chat with your Pudgy pet
+              <div className="flex items-center gap-2">
+                <FaCommentDots className="text-pudgy-blue text-lg" />
+                <div className="text-sm font-kvant text-pudgy-oxford tracking-wide">
+                  Chat with your Pudgy
+                </div>
               </div>
               <Button
                 type="button"
                 onClick={() => setShowChat(false)}
                 variant="outline"
                 size="sm"
-                className="text-xs px-3 py-2 h-auto border-indigo-200 text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 rounded-lg"
+                className="!flex !items-center !justify-center text-xs px-3 py-2 h-auto border-pudgy-sky/30 text-pudgy-blue hover:text-pudgy-oxford hover:bg-pudgy-sky/10 rounded-lg transition-all duration-200 !max-w-none"
               >
-                ✕
+                <FaTimes className="text-sm" />
               </Button>
             </div>
           </div>
@@ -247,7 +299,7 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
           {/* Chat Messages Container */}
           <div 
             ref={chatContainerRef}
-            className="max-h-64 min-h-32 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-indigo-50/30 to-white"
+            className="max-h-48 min-h-24 overflow-y-auto p-3 space-y-3 bg-gradient-to-b from-pudgy-azure/30 to-white"
           >
             {chatHistory.map((msg) => (
               <div
@@ -255,16 +307,25 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
                 className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl text-sm font-medium shadow-md ${
+                  className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl text-sm shadow-md ${
                     msg.sender === 'user'
-                      ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-br-md'
-                      : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 rounded-bl-md border border-gray-200'
+                      ? 'bg-gradient-to-r from-pudgy-blue to-pudgy-sky text-white rounded-br-md'
+                      : 'bg-gradient-to-r from-pudgy-floral to-pudgy-lavender text-pudgy-oxford rounded-bl-md border border-pudgy-sky/20'
                   }`}
                 >
-                  <div className="break-words">{msg.text}</div>
+                  <div className="break-words">
+                    {msg.sender === 'pet' ? (
+                      <MarkdownMessage 
+                        content={msg.text} 
+                        className="text-pudgy-oxford"
+                      />
+                    ) : (
+                      <div className="font-fobble text-white">{msg.text}</div>
+                    )}
+                  </div>
                   <div
                     className={`text-xs mt-2 opacity-75 ${
-                      msg.sender === 'user' ? 'text-indigo-100' : 'text-gray-500'
+                      msg.sender === 'user' ? 'text-white/80' : 'text-pudgy-oxford/60'
                     }`}
                   >
                     {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -276,14 +337,14 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
             {/* Loading indicator for pet response */}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 rounded-2xl rounded-bl-md px-4 py-3 text-sm font-medium shadow-md border border-gray-200">
+                <div className="bg-gradient-to-r from-pudgy-floral to-pudgy-lavender text-pudgy-oxford rounded-2xl rounded-bl-md px-4 py-3 text-sm font-medium shadow-md border border-pudgy-sky/20">
                   <div className="flex items-center space-x-2">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-pudgy-blue rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-pudgy-sky rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-pudgy-oxford rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
-                    <span className="text-sm text-indigo-600 font-medium ml-2">🐧 typing...</span>
+                    <span className="text-sm text-pudgy-blue font-kvant ml-2">🐧 typing...</span>
                   </div>
                 </div>
               </div>
@@ -291,10 +352,12 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
             
             {/* Empty state */}
             {chatHistory.length === 0 && !isLoading && (
-              <div className="text-center text-gray-500 text-sm py-8">
-                <div className="text-2xl mb-2">🐧💭</div>
-                <div>Start chatting with your Pudgy pet!</div>
-                <div className="text-xs mt-1">Try saying &ldquo;Hello&rdquo; or ask how they&rsquo;re feeling</div>
+              <div className="text-center text-pudgy-oxford/60 text-sm py-8">
+                <div className="text-3xl mb-3 filter drop-shadow-sm">🐧💭</div>
+                <div className="font-bold mb-1">Start chatting with your Pudgy!</div>
+                <div className="text-xs mt-2 bg-gradient-to-r from-pudgy-azure/30 to-pudgy-lavender/30 px-3 py-2 rounded-lg inline-block border border-pudgy-sky/20">
+                  Try saying &quot;Hello&quot; or ask how they&apos;re feeling
+                </div>
               </div>
             )}
             
@@ -302,14 +365,14 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
           </div>
 
           {/* Chat Input */}
-          <div className="p-4 border-t border-indigo-200 bg-gradient-to-r from-indigo-50/50 to-white">
+          <div className="p-4 border-t border-pudgy-sky/20 bg-gradient-to-r from-pudgy-azure/30 to-pudgy-blizzard">
             <form onSubmit={handleChatSubmit} className="flex gap-3">
               <input
                 type="text"
                 value={chatMessage}
                 onChange={(e) => setChatMessage(e.target.value)}
-                placeholder="Type your message..."
-                className="flex-1 px-4 py-3 text-sm border border-indigo-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/80 backdrop-blur-sm font-medium placeholder-gray-500"
+                placeholder="Type your message to Pudgy..."
+                className="flex-1 px-4 py-3 text-sm border border-pudgy-sky/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-pudgy-blue focus:border-pudgy-blue bg-white/90 backdrop-blur-sm font-medium placeholder-pudgy-oxford/50 text-pudgy-oxford"
                 disabled={isLoading}
                 autoFocus
               />
@@ -318,9 +381,13 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
                 disabled={isLoading || !chatMessage.trim()}
                 variant="primary"
                 size="sm"
-                className="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 px-5 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+                className="!flex !items-center !justify-center bg-gradient-to-r from-pudgy-blue to-pudgy-sky hover:from-pudgy-sky hover:to-pudgy-blue px-5 py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 !max-w-none"
               >
-                {isLoading ? '⏳' : '�'}
+                {isLoading ? (
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <FaPaperPlane className="text-sm" />
+                )}
               </Button>
             </form>
           </div>
@@ -328,28 +395,20 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
       )}
 
       {/* Stats Display */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-2 mb-3">
         {(['hunger', 'happiness', 'energy'] as const).map((stat) => (
-          <div key={stat} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+          <div key={stat} className="bg-white/90 backdrop-blur-md rounded-xl p-2 border border-pudgy-sky/20 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
             <div className="text-center">
-              <div className="text-2xl mb-2">
-                {getStatEmoji(stat, petData.stats[stat])}
+              <div className="text-lg mb-1 flex justify-center">
+                {getStatIcon(stat, petData.stats[stat])}
               </div>
-              <div className="text-xs font-semibold text-gray-700 capitalize mb-2 tracking-wide">{stat}</div>
-              <div className={`text-lg font-bold mb-2 ${getStatColor(petData.stats[stat])}`}>
+              <div className="text-xs font-kvant text-pudgy-oxford capitalize mb-1 tracking-wider">{stat}</div>
+              <div className={`text-sm font-trailers mb-2 ${getStatColor(petData.stats[stat])}`}>
                 {petData.stats[stat]}/100
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div className="w-full bg-gradient-to-r from-gray-200 to-gray-300 rounded-full h-2 overflow-hidden shadow-inner">
                 <div
-                  className={`h-3 rounded-full transition-all duration-500 ease-out ${
-                    petData.stats[stat] >= 80
-                      ? 'bg-gradient-to-r from-green-400 to-green-500'
-                      : petData.stats[stat] >= 50
-                      ? 'bg-gradient-to-r from-yellow-400 to-yellow-500'
-                      : petData.stats[stat] >= 30
-                      ? 'bg-gradient-to-r from-orange-400 to-orange-500'
-                      : 'bg-gradient-to-r from-red-400 to-red-500'
-                  }`}
+                  className={`h-2 rounded-full transition-all duration-700 ease-out bg-gradient-to-r ${getStatGradient(petData.stats[stat])} shadow-sm`}
                   style={{ width: `${Math.max(petData.stats[stat], 0)}%` }}
                 />
               </div>
@@ -359,56 +418,61 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
       </div>
 
       {/* Action Buttons */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2">
         <Button
           onClick={() => performAction('feed')}
           disabled={isLoading}
           variant="primary"
           size="sm"
-          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+          className="!flex !items-center !justify-center !gap-1 bg-gradient-to-r from-pudgy-mint to-green-400 hover:from-green-400 hover:to-pudgy-mint text-white font-kvant py-2 px-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 border border-green-300/30 !w-full !max-w-none"
         >
-          🍎 Feed
+          <FaUtensils className="text-xs" />
+          <span className="text-xs">Feed</span>
         </Button>
         <Button
           onClick={() => performAction('play')}
           disabled={isLoading}
           variant="primary"
           size="sm"
-          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+          className="!flex !items-center !justify-center !gap-1 bg-gradient-to-r from-pudgy-blue to-pudgy-sky hover:from-pudgy-sky hover:to-pudgy-blue text-white font-kvant py-2 px-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 border border-pudgy-sky/30 !w-full !max-w-none"
         >
-          🎾 Play
+          <FaGamepad className="text-xs" />
+          <span className="text-xs">Play</span>
         </Button>
         <Button
           onClick={() => performAction('pet')}
           disabled={isLoading}
           variant="primary"
           size="sm"
-          className="bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+          className="!flex !items-center !justify-center !gap-1 bg-gradient-to-r from-pudgy-coral to-pudgy-plum hover:from-pudgy-plum hover:to-pudgy-coral text-white font-kvant py-2 px-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 border border-pudgy-plum/30 !w-full !max-w-none"
         >
-          🥰 Pet
+          <FaHeart className="text-xs" />
+          <span className="text-xs">Pet</span>
         </Button>
         <Button
           onClick={() => performAction('sleep')}
           disabled={isLoading}
           variant="primary"
           size="sm"
-          className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+          className="!flex !items-center !justify-center !gap-1 bg-gradient-to-r from-pudgy-lavender to-purple-400 hover:from-purple-400 hover:to-pudgy-lavender text-white font-kvant py-2 px-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 border border-purple-300/30 !w-full !max-w-none"
         >
-          😴 Sleep
+          <FaBed className="text-xs" />
+          <span className="text-xs">Sleep</span>
         </Button>
       </div>
 
       {/* Chat and Status Buttons */}
-      <div className="mt-4 space-y-3">
-        <div className="flex gap-3">
+      <div className="mt-3 space-y-2">
+        <div className="flex gap-2">
           <Button
             onClick={() => setShowChat(!showChat)}
             disabled={isLoading}
             variant="secondary"
             size="sm"
-            className="flex-1 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+            className="!flex !items-center !justify-center !gap-1 flex-1 bg-gradient-to-r from-pudgy-blue to-pudgy-sky hover:from-pudgy-sky hover:to-pudgy-blue text-white font-kvant py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 !max-w-none"
           >
-            {showChat ? '📝 Hide Chat' : '💬 Chat with Pet'}
+            <FaCommentDots className="text-xs" />
+            <span className="text-xs">{showChat ? 'Hide Chat' : 'Chat'}</span>
           </Button>
           
           {showChat && chatHistory.length > 0 && (
@@ -417,10 +481,10 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
               disabled={isLoading}
               variant="outline"
               size="sm"
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 hover:border-red-300 py-3 px-4 rounded-xl font-medium"
+              className="!flex !items-center !justify-center text-pudgy-coral hover:text-white hover:bg-pudgy-coral/80 border-pudgy-coral/40 hover:border-pudgy-coral py-2 px-3 rounded-xl font-kvant transition-all duration-300 transform hover:scale-105 shadow-lg !max-w-none"
               title="Clear chat history"
             >
-              🗑️
+              <FaTrash className="text-xs" />
             </Button>
           )}
         </div>
@@ -431,15 +495,23 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
           variant="outline"
           size="sm"
           isLoading={isLoading}
-          className="w-full bg-white/80 hover:bg-white border-indigo-200 hover:border-indigo-300 text-indigo-700 hover:text-indigo-800 py-3 rounded-xl font-semibold transition-all duration-200"
+          className="!flex !items-center !justify-center !gap-1 w-full bg-gradient-to-r from-white/90 to-pudgy-blizzard hover:from-pudgy-azure hover:to-pudgy-blizzard border-pudgy-sky/30 hover:border-pudgy-blue/50 text-pudgy-oxford hover:text-pudgy-blue py-2 rounded-xl font-kvant transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 !max-w-none"
         >
-          {!isLoading && '📊 Check Status'}
+          {!isLoading && (
+            <>
+              <FaEye className="text-xs" />
+              <span className="text-xs">Status</span>
+            </>
+          )}
         </Button>
       </div>
 
       {/* Last Interaction Time */}
-      <div className="mt-4 text-xs text-gray-500 text-center bg-white/50 px-3 py-2 rounded-lg">
-        Last interaction: {new Date(petData.stats.lastInteraction).toLocaleTimeString()}
+      <div className="mt-6 text-xs text-pudgy-oxford/60 text-center bg-gradient-to-r from-white/70 to-pudgy-blizzard/80 backdrop-blur-sm px-4 py-3 rounded-xl border border-pudgy-sky/20 shadow-sm">
+        <div className="font-medium">Last interaction</div>
+        <div className="text-pudgy-blue font-bold mt-1">
+          {new Date(petData.stats.lastInteraction).toLocaleTimeString()}
+        </div>
       </div>
     </div>
   );

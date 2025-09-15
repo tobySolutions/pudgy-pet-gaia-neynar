@@ -19,14 +19,17 @@ export function Header({ neynarUser }: HeaderProps) {
   return (
     <div className="relative">
       <div 
-        className="mt-4 mb-4 mx-4 px-2 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-between border-[3px] border-double border-primary"
+        className="mt-2 mb-2 mx-3 px-3 py-2 bg-gradient-to-r from-pudgy-floral via-white to-pudgy-azure rounded-xl flex items-center justify-between border border-pudgy-sky/30 shadow-lg backdrop-blur-sm"
       >
-        <div className="text-lg font-light">
-          Welcome to {APP_NAME}!
+        <div className="flex items-center gap-2">
+          <div className="text-lg">🐧</div>
+          <div className="text-sm font-trailers text-pudgy-oxford tracking-wide">
+            Welcome to {APP_NAME}!
+          </div>
         </div>
         {context?.user && (
           <div 
-            className="cursor-pointer"
+            className="cursor-pointer transition-all duration-200 hover:scale-105"
             onClick={() => {
               setIsUserDropdownOpen(!isUserDropdownOpen);
             }}
@@ -35,7 +38,7 @@ export function Header({ neynarUser }: HeaderProps) {
               <img 
                 src={context.user.pfpUrl} 
                 alt="Profile" 
-                className="w-10 h-10 rounded-full border-2 border-primary"
+                className="w-8 h-8 rounded-full border-2 border-pudgy-blue shadow-md hover:shadow-lg transition-shadow duration-200"
               />
             )}
           </div>
@@ -44,27 +47,25 @@ export function Header({ neynarUser }: HeaderProps) {
       {context?.user && (
         <>      
           {isUserDropdownOpen && (
-            <div className="absolute top-full right-0 z-50 w-fit mt-1 mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="absolute top-full right-0 z-50 w-fit mt-1 mx-3 bg-gradient-to-br from-white via-pudgy-blizzard to-pudgy-azure rounded-lg shadow-xl border border-pudgy-sky/30 backdrop-blur-md">
               <div className="p-3 space-y-2">
                 <div className="text-right">
                   <h3 
-                    className="font-bold text-sm hover:underline cursor-pointer inline-block"
+                    className="font-bold text-sm hover:text-pudgy-blue transition-colors duration-200 cursor-pointer inline-block text-pudgy-oxford"
                     onClick={() => sdk.actions.viewProfile({ fid: context.user.fid })}
                   >
                     {context.user.displayName || context.user.username}
                   </h3>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">
+                  <p className="text-xs text-pudgy-blue font-medium">
                     @{context.user.username}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-500">
+                  <p className="text-xs text-pudgy-oxford/60 bg-pudgy-sky/10 px-2 py-1 rounded-full inline-block mt-1">
                     FID: {context.user.fid}
                   </p>
                   {neynarUser && (
-                    <>
-                      <p className="text-xs text-gray-500 dark:text-gray-500">
-                        Neynar Score: {neynarUser.score}
-                      </p>
-                    </>
+                    <p className="text-xs text-pudgy-oxford/60 bg-pudgy-mint/20 px-2 py-1 rounded-full inline-block mt-1 ml-1">
+                      Score: {neynarUser.score}
+                    </p>
                   )}
                 </div>
               </div>

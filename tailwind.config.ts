@@ -21,15 +21,36 @@ export default {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			// Pudgy Penguins Brand Fonts
+  			fobble: ['var(--font-fobble)', 'system-ui', 'sans-serif'],
+  			kvant: ['var(--font-kvant)', 'system-ui', 'sans-serif'],
+  			trailers: ['var(--font-trailers)', 'system-ui', 'sans-serif'],
+  		},
   		colors: {
-  			// Main theme color - change this to update the entire app's color scheme
-  			primary: "#6366f1", // Indigo 500 - Main brand color
-  			"primary-light": "#a5b4fc", // Indigo 300 - For hover states
-  			"primary-dark": "#4338ca", // Indigo 700 - For active states
+  			// Pudgy Penguins Brand Colors - Primary
+  			'pudgy-sky': '#80ABFF',      // Sky Blue
+  			'pudgy-blue': '#477DFD',     // Blue Crayola 
+  			'pudgy-oxford': '#00142D',   // Oxford Blue
+  			'pudgy-blizzard': '#F5FDFF', // Blizzard Blue
+  			
+  			// Pudgy Penguins Brand Colors - Secondary
+  			'pudgy-coral': '#FF8B8B',    // Light Coral
+  			'pudgy-floral': '#FBF7EB',   // Floral White
+  			'pudgy-lavender': '#FBE9F3', // Lavender Blush
+  			'pudgy-azure': '#E9F7FB',    // Azure
+  			'pudgy-mint': '#A9FF99',     // Mint Green
+  			'pudgy-jasmine': '#FFE092',  // Jasmine
+  			'pudgy-plum': '#FFA3FF',     // Plum
+  			
+  			// Theme colors using Pudgy brand
+  			primary: "#477DFD",          // Blue Crayola
+  			"primary-light": "#80ABFF",  // Sky Blue
+  			"primary-dark": "#00142D",   // Oxford Blue
   			
   			// Secondary colors for backgrounds and text
-  			secondary: "#f1f5f9", // Slate 100 - Light backgrounds
-  			"secondary-dark": "#334155", // Slate 700 - Dark backgrounds
+  			secondary: "#F5FDFF",        // Blizzard Blue
+  			"secondary-dark": "#00142D", // Oxford Blue
   			
   			// Legacy CSS variables for backward compatibility
   			background: 'var(--background)',

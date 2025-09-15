@@ -50,7 +50,7 @@ export interface AppProps {
  * ```
  */
 export default function App(
-  { title }: AppProps = { title: "Neynar Starter Kit" }
+  { title }: AppProps = { title: "Pudgy Pet Agent" }
 ) {
   // --- Hooks ---
   const {
@@ -81,11 +81,12 @@ export default function App(
   // --- Early Returns ---
   if (!isSDKLoaded) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-pudgy-blizzard via-pudgy-azure to-pudgy-lavender">
         <div className="text-center">
-          <div className="text-6xl mb-4 animate-pulse">🐧</div>
-          <div className="spinner h-10 w-10 mx-auto mb-4 border-4 border-indigo-200 border-t-indigo-600"></div>
-          <p className="text-lg font-semibold text-indigo-700">Loading Pudgy Agent...</p>
+          <div className="text-6xl mb-4 animate-pulse filter drop-shadow-lg">🐧</div>
+          <div className="spinner h-10 w-10 mx-auto mb-4 border-4 border-pudgy-sky/30 border-t-pudgy-blue"></div>
+          <p className="text-lg font-bold text-pudgy-oxford tracking-wide">Loading Pudgy Agent...</p>
+          <p className="text-sm text-pudgy-blue mt-2">Preparing your penguin companion</p>
         </div>
       </div>
     );
@@ -94,7 +95,7 @@ export default function App(
   // --- Render ---
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+      className="min-h-screen bg-gradient-to-br from-pudgy-blizzard via-pudgy-azure to-pudgy-lavender"
       style={{
         paddingTop: context?.client.safeAreaInsets?.top ?? 0,
         paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
@@ -105,20 +106,24 @@ export default function App(
       {/* Header should be full width */}
       <Header neynarUser={neynarUser} />
 
-      {/* Main content and footer should be centered */}
-      <div className="container py-4 pb-20">
-        {/* Main title */}
-        <h1 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">{title}</h1>
+      {/* Main content optimized for mini-app frame */}
+      <div className="pb-20">
+        <div className="max-w-sm mx-auto px-3 py-2">
+          {/* Main title - smaller for mini-app */}
+          <h1 className="text-xl font-trailers text-center mb-4 bg-gradient-to-r from-pudgy-blue via-pudgy-sky to-pudgy-oxford bg-clip-text text-transparent tracking-wide drop-shadow-sm">{title}</h1>
 
-        {/* Tab content rendering */}
-        {currentTab === Tab.Home && <HomeTab />}
-        {currentTab === Tab.Actions && <ActionsTab />}
-        {currentTab === Tab.Context && <ContextTab />}
-        {currentTab === Tab.Wallet && <WalletTab />}
-
-        {/* Footer with navigation */}
-        <Footer activeTab={currentTab as Tab} setActiveTab={setActiveTab} showWallet={USE_WALLET} />
+          {/* Tab content rendering with compact spacing */}
+          <div className="mb-4">
+            {currentTab === Tab.Home && <HomeTab />}
+            {currentTab === Tab.Actions && <ActionsTab />}
+            {currentTab === Tab.Context && <ContextTab />}
+            {currentTab === Tab.Wallet && <WalletTab />}
+          </div>
+        </div>
       </div>
+
+      {/* Footer with navigation - fixed position */}
+      <Footer activeTab={currentTab as Tab} setActiveTab={setActiveTab} showWallet={USE_WALLET} />
     </div>
   );
 }

@@ -123,62 +123,89 @@ export function ActionsTab() {
 
   // --- Render ---
   return (
-    <div className="space-y-3 px-6 w-full max-w-md mx-auto">
+    <div className="space-y-3 w-full mx-auto">
+      {/* Header */}
+      <div className="text-center mb-3">
+        <div className="text-2xl mb-1">⚡🐧</div>
+        <h2 className="text-lg font-trailers text-pudgy-oxford mb-1">Pudgy Actions</h2>
+                <p className="text-xs text-pudgy-oxford/70 font-fobble bg-gradient-to-r from-pudgy-azure/30 to-pudgy-lavender/30 px-2 py-1 rounded-lg">
+          Share with friends and explore the Pudgy universe! 🌊
+        </p>
+      </div>
+
       {/* Share functionality */}
-      <ShareButton
-        buttonText="Share Mini App"
-        cast={{
-          text: 'Check out this awesome frame @1 @2 @3! 🚀🪐',
-          bestFriends: true,
-          embeds: [`${APP_URL}/share/${context?.user?.fid || ''}`],
-        }}
-        className="w-full"
-      />
+      <div className="bg-gradient-to-r from-pudgy-floral to-pudgy-azure rounded-2xl p-4 border border-pudgy-sky/30 shadow-lg">
+        <ShareButton
+          buttonText="🚀 Share Pudgy Pet"
+          cast={{
+            text: 'Just got my own Pudgy Pet! 🐧✨ This AI companion is amazing! Come get yours! 🪐',
+            bestFriends: true,
+            embeds: [`${APP_URL}/share/${context?.user?.fid || ''}`],
+          }}
+          className="w-full !bg-gradient-to-r !from-pudgy-blue !to-pudgy-sky hover:!from-pudgy-sky hover:!to-pudgy-blue !font-kvant !py-3 !rounded-xl !shadow-xl hover:!shadow-2xl !transition-all !duration-300 !transform hover:!scale-105"
+        />
+      </div>
 
       {/* Authentication */}
-      <SignIn />
+      <div className="bg-gradient-to-r from-pudgy-lavender to-pudgy-floral rounded-2xl p-4 border border-pudgy-plum/20 shadow-lg">
+        <SignIn />
+      </div>
 
       {/* Mini app actions */}
-      <Button
-        onClick={() =>
-          actions.openUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-        }
-        className="w-full"
-      >
-        Open Link
-      </Button>
+      <div className="grid grid-cols-2 gap-3">
+        <Button
+          onClick={() =>
+            actions.openUrl('https://pudgypenguins.com')
+          }
+          className="!bg-gradient-to-r !from-pudgy-mint !to-green-400 hover:!from-green-400 hover:!to-pudgy-mint !text-white !font-bold !py-4 !rounded-2xl !shadow-xl hover:!shadow-2xl !transition-all !duration-300 !transform hover:!scale-105 !max-w-none"
+        >
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-lg">🌐</span>
+            <span className="text-xs font-kvant">Visit Site</span>
+          </div>
+        </Button>
 
-      <Button onClick={actions.addMiniApp} disabled={added} className="w-full">
-        Add Mini App to Client
-      </Button>
+        <Button 
+          onClick={actions.addMiniApp} 
+          disabled={added} 
+          className="!bg-gradient-to-r !from-pudgy-jasmine !to-yellow-400 hover:!from-yellow-400 hover:!to-pudgy-jasmine !text-white !font-bold !py-4 !rounded-2xl !shadow-xl hover:!shadow-2xl !transition-all !duration-300 !transform hover:!scale-105 disabled:!opacity-50 disabled:!hover:scale-100 !max-w-none"
+        >
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-lg">{added ? '✅' : '📱'}</span>
+            <span className="text-xs font-kvant">{added ? 'Added!' : 'Add App'}</span>
+          </div>
+        </Button>
+      </div>
 
       {/* Notification functionality */}
-      {notificationState.sendStatus && (
-        <div className="text-sm w-full">
-          Send notification result: {notificationState.sendStatus}
-        </div>
-      )}
-      <Button
-        onClick={sendFarcasterNotification}
-        disabled={!notificationDetails}
-        className="w-full"
-      >
-        Send notification
-      </Button>
+      <div className="bg-gradient-to-r from-pudgy-coral/20 to-pudgy-plum/20 rounded-2xl p-4 border border-pudgy-coral/30 shadow-lg">
+        {notificationState.sendStatus && (
+          <div className="text-sm text-center mb-3 p-2 bg-white/70 rounded-xl font-medium text-pudgy-oxford">
+            📢 {notificationState.sendStatus}
+          </div>
+        )}
+        <Button
+          onClick={sendFarcasterNotification}
+          disabled={!notificationDetails}
+          className="w-full !bg-gradient-to-r !from-pudgy-coral !to-pudgy-plum hover:!from-pudgy-plum hover:!to-pudgy-coral !text-white !font-bold !py-3 !rounded-xl !shadow-lg hover:!shadow-xl !transition-all !duration-300 !transform hover:!scale-105 disabled:!opacity-50 disabled:!hover:scale-100 !max-w-none"
+        >
+          🔔 Send Notification
+        </Button>
+      </div>
 
       {/* Share URL copying */}
       <Button
         onClick={copyUserShareUrl}
         disabled={!context?.user?.fid}
-        className="w-full"
+        className="w-full !bg-gradient-to-r !from-pudgy-sky !to-pudgy-blue hover:!from-pudgy-blue hover:!to-pudgy-sky !text-white !font-bold !py-3 !rounded-xl !shadow-lg hover:!shadow-xl !transition-all !duration-300 !transform hover:!scale-105 disabled:!opacity-50 disabled:!hover:scale-100 !max-w-none"
       >
-        {notificationState.shareUrlCopied ? 'Copied!' : 'Copy share URL'}
+        {notificationState.shareUrlCopied ? '✅ Copied!' : '🔗 Copy Share URL'}
       </Button>
 
       {/* Haptic feedback controls */}
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Haptic Intensity
+      <div className="bg-gradient-to-r from-pudgy-azure to-pudgy-blizzard rounded-2xl p-4 border border-pudgy-sky/30 shadow-lg">
+                <label className="block text-sm font-kvant text-pudgy-oxford mb-3 text-center">
+          Select haptic intensity:
         </label>
         <select
           value={selectedHapticIntensity}
@@ -187,16 +214,19 @@ export function ActionsTab() {
               e.target.value as Haptics.ImpactOccurredType
             )
           }
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 mb-3 border border-pudgy-sky/30 rounded-xl bg-white text-pudgy-oxford font-medium focus:outline-none focus:ring-2 focus:ring-pudgy-blue shadow-inner"
         >
-          <option value={'light'}>Light</option>
-          <option value={'medium'}>Medium</option>
-          <option value={'heavy'}>Heavy</option>
-          <option value={'soft'}>Soft</option>
-          <option value={'rigid'}>Rigid</option>
+          <option value={'light'}>🪶 Light</option>
+          <option value={'medium'}>🥊 Medium</option>
+          <option value={'heavy'}>💥 Heavy</option>
+          <option value={'soft'}>🌸 Soft</option>
+          <option value={'rigid'}>🔧 Rigid</option>
         </select>
-        <Button onClick={triggerHapticFeedback} className="w-full">
-          Trigger Haptic Feedback
+        <Button 
+          onClick={triggerHapticFeedback} 
+          className="w-full !bg-gradient-to-r !from-pudgy-oxford !to-gray-700 hover:!from-gray-700 hover:!to-pudgy-oxford !text-white !font-bold !py-3 !rounded-xl !shadow-lg hover:!shadow-xl !transition-all !duration-300 !transform hover:!scale-105 !max-w-none"
+        >
+          ⚡ Feel the Buzz
         </Button>
       </div>
     </div>
