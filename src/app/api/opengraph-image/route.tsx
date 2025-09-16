@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       }}>
         {/* Pudgy Penguin Image as main visual */}
         <img 
-          src="/pudgy-image.jpg" 
+          src={`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/pudgy-image.jpg`}
           alt="Pudgy Penguin" 
           tw="w-64 h-64 mb-8 rounded-full object-cover border-4 border-white shadow-lg"
         />
