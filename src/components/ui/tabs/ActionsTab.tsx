@@ -126,7 +126,16 @@ export function ActionsTab() {
     <div className="space-y-3 w-full mx-auto">
       {/* Header */}
       <div className="text-center mb-3">
-        <div className="text-2xl mb-1">⚡🐧</div>
+        <div className="flex items-center justify-center mb-1">
+          <span className="text-2xl mr-1">⚡</span>
+          <div className="w-6 h-6">
+            <img 
+              src="/pudgy-image.jpg" 
+              alt="Pudgy Pet" 
+              className="w-full h-full rounded-full object-cover"
+            />
+          </div>
+        </div>
         <h2 className="text-lg font-trailers text-pudgy-oxford mb-1">Pudgy Actions</h2>
                 <p className="text-xs text-pudgy-oxford/70 font-fobble bg-gradient-to-r from-pudgy-azure/30 to-pudgy-lavender/30 px-2 py-1 rounded-lg">
           Share with friends and explore the Pudgy universe! 🌊

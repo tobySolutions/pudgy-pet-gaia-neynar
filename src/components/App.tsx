@@ -83,7 +83,13 @@ export default function App(
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-pudgy-blizzard via-pudgy-azure to-pudgy-lavender">
         <div className="text-center">
-          <div className="text-6xl mb-4 animate-pulse filter drop-shadow-lg">🐧</div>
+          <div className="w-16 h-16 mb-4 animate-pulse filter drop-shadow-lg mx-auto">
+            <img 
+              src="/pudgy-image.jpg" 
+              alt="Pudgy Pet Loading" 
+              className="w-full h-full rounded-full object-cover border-2 border-pudgy-sky shadow-lg"
+            />
+          </div>
           <div className="spinner h-10 w-10 mx-auto mb-4 border-4 border-pudgy-sky/30 border-t-pudgy-blue"></div>
           <p className="text-lg font-bold text-pudgy-oxford tracking-wide">Loading Pudgy Agent...</p>
           <p className="text-sm text-pudgy-blue mt-2">Preparing your penguin companion</p>

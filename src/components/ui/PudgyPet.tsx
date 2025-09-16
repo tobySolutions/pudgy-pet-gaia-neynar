@@ -197,7 +197,13 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
     return (
       <div className="flex items-center justify-center p-8 bg-gradient-to-br from-pudgy-blizzard via-pudgy-azure to-pudgy-lavender rounded-2xl border-2 border-pudgy-sky/30 shadow-xl">
         <div className="text-center">
-          <div className="text-6xl mb-4 animate-pulse filter drop-shadow-lg">🐧</div>
+          <div className="w-16 h-16 mb-4 animate-pulse filter drop-shadow-lg mx-auto">
+            <img 
+              src="/pudgy-image.jpg" 
+              alt="Pudgy Pet Loading" 
+              className="w-full h-full rounded-full object-cover border-2 border-pudgy-sky"
+            />
+          </div>
           <div className="text-base text-pudgy-blue font-kvant tracking-wide">Loading your Pudgy pet...</div>
           <div className="mt-3">
             <div className="flex justify-center space-x-1">
@@ -242,8 +248,12 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
       {/* Pet Avatar */}
       <div className="text-center mb-4">
         <div className="relative inline-block">
-          <div className="text-5xl mb-2 animate-bounce hover:animate-pulse transition-all duration-300 cursor-pointer filter drop-shadow-lg">
-            🐧
+          <div className="w-16 h-16 mb-2 animate-bounce hover:animate-pulse transition-all duration-300 cursor-pointer filter drop-shadow-lg">
+            <img 
+              src="/pudgy-image.jpg" 
+              alt="Pudgy Pet" 
+              className="w-full h-full rounded-full object-cover border-2 border-pudgy-sky shadow-lg"
+            />
           </div>
           <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-pudgy-mint to-pudgy-jasmine rounded-full border border-white shadow-lg flex items-center justify-center">
             <div className="w-1 h-1 bg-white rounded-full animate-pulse"></div>
@@ -261,7 +271,13 @@ export default function PudgyPet({ userId }: PudgyPetProps) {
       {!showChat && (
         <div className="bg-gradient-to-r from-pudgy-floral via-white to-pudgy-lavender rounded-xl p-3 mb-3 border border-pudgy-sky/30 shadow-lg backdrop-blur-sm">
           <div className="flex items-start gap-2">
-            <div className="text-lg flex-shrink-0">🐧</div>
+            <div className="w-6 h-6 flex-shrink-0">
+              <img 
+                src="/pudgy-image.jpg" 
+                alt="Pudgy Pet" 
+                className="w-full h-full rounded-full object-cover"
+              />
+            </div>
             <div className="flex-1 min-w-0">
               <MarkdownMessage 
                 content={petData.message} 

@@ -43,8 +43,9 @@ export async function GET(request: NextRequest) {
         <!-- Background -->
         <rect width="800" height="600" fill="url(#bg)"/>
         
-        <!-- Penguin emoji -->
-        <text x="400" y="180" text-anchor="middle" font-size="120" fill="white">🐧</text>
+        <!-- Pudgy Pet Avatar Circle -->
+        <circle cx="400" cy="140" r="50" fill="#80ABFF" stroke="white" stroke-width="4"/>
+        <text x="400" y="150" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="white">PUDGY</text>
         
         <!-- Title -->
         <text x="400" y="240" text-anchor="middle" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="white">
@@ -99,7 +100,8 @@ export async function GET(request: NextRequest) {
         </defs>
         
         <rect width="800" height="600" fill="url(#errorBg)"/>
-        <text x="400" y="200" text-anchor="middle" font-size="120" fill="white">🐧</text>
+        <circle cx="400" cy="160" r="50" fill="#ff8e8e" stroke="white" stroke-width="4"/>
+        <text x="400" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="white">ERROR</text>
         <text x="400" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="48" fill="white">Oops!</text>
         <text x="400" y="360" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="white">Something went wrong with your Pudgy pet! 😅</text>
       </svg>

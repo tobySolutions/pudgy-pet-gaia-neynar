@@ -18,7 +18,13 @@ export const Footer: React.FC<FooterProps> = ({ activeTab, setActiveTab, showWal
             : 'text-pudgy-oxford/60 hover:text-pudgy-blue hover:bg-pudgy-azure/30'
         }`}
       >
-        <span className="text-2xl mb-1">🐧</span>
+        <div className="w-6 h-6 mb-1">
+          <img 
+            src="/pudgy-image.jpg" 
+            alt="Home" 
+            className="w-full h-full rounded-full object-cover"
+          />
+        </div>
         <span className="text-xs font-kvant tracking-wide">Home</span>
       </button>
       <button

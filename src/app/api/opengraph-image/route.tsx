@@ -15,8 +15,12 @@ export async function GET(request: NextRequest) {
       <div tw="flex h-full w-full flex-col justify-center items-center relative" style={{
         background: 'linear-gradient(135deg, #F5FDFF 0%, #E9F7FB 50%, #FBE9F3 100%)'
       }}>
-        {/* Pudgy Penguin Emoji as main visual */}
-        <div tw="flex text-[200px] mb-8">🐧</div>
+        {/* Pudgy Penguin Image as main visual */}
+        <img 
+          src="/pudgy-image.jpg" 
+          alt="Pudgy Penguin" 
+          tw="w-64 h-64 mb-8 rounded-full object-cover border-4 border-white shadow-lg"
+        />
         
         {/* Focus purely on Pudgy branding - no user PFP */}
         

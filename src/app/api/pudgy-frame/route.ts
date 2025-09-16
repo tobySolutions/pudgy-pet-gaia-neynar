@@ -97,7 +97,9 @@ function getFrameHtml(message: string, stats: PudgyStats, userId: string, error:
       </head>
       <body>
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: linear-gradient(135deg, ${bgColor}, #74c0fc); color: ${textColor}; font-family: system-ui, -apple-system, sans-serif; text-align: center; padding: 20px;">
-          <h1 style="font-size: 3em; margin-bottom: 0.2em;">🐧</h1>
+          <div style="width: 80px; height: 80px; margin: 0 auto 0.2em; border-radius: 50%; overflow: hidden; border: 2px solid white;">
+            <img src="${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/pudgy-image.jpg" alt="Pudgy Pet" style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
           <h2 style="font-size: 1.5em; margin-bottom: 0.5em;">Pudgy Pet Frame ${moodEmoji}</h2>
           <p style="font-size: 1em; margin-bottom: 1em; max-width: 400px;">${message}</p>
           <div style="display: flex; gap: 20px; margin-top: 20px;">

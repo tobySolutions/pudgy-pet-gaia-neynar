@@ -25,7 +25,13 @@ export function HomeTab() {
   return (
     <div className="flex flex-col items-center">
       <div className="text-center mb-3">
-        <div className="text-4xl mb-2 animate-bounce filter drop-shadow-lg">🐧</div>
+        <div className="w-12 h-12 mb-2 animate-bounce filter drop-shadow-lg mx-auto">
+          <img 
+            src="/pudgy-image.jpg" 
+            alt="Pudgy Pet" 
+            className="w-full h-full rounded-full object-cover border-2 border-pudgy-sky shadow-lg"
+          />
+        </div>
         <h2 className="text-lg font-trailers bg-gradient-to-r from-pudgy-blue via-pudgy-sky to-pudgy-oxford bg-clip-text text-transparent mb-2 tracking-wide">
           Meet Your Pudgy Pal! ✨
         </h2>

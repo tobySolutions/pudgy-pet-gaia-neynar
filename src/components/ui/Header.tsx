@@ -22,7 +22,13 @@ export function Header({ neynarUser }: HeaderProps) {
         className="mt-2 mb-2 mx-3 px-3 py-2 bg-gradient-to-r from-pudgy-floral via-white to-pudgy-azure rounded-xl flex items-center justify-between border border-pudgy-sky/30 shadow-lg backdrop-blur-sm"
       >
         <div className="flex items-center gap-2">
-          <div className="text-lg">🐧</div>
+          <div className="w-5 h-5">
+            <img 
+              src="/pudgy-image.jpg" 
+              alt="Pudgy" 
+              className="w-full h-full rounded-full object-cover"
+            />
+          </div>
           <div className="text-sm font-trailers text-pudgy-oxford tracking-wide">
             Welcome to {APP_NAME}!
           </div>
