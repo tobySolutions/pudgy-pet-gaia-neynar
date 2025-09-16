@@ -133,6 +133,11 @@ export function HomeTab() {
 
 ## Environment Variables
 
+Required for AI functionality:
+```
+GAIA_API_KEY=your_gaia_ai_api_key
+```
+
 Optional for persistent storage:
 ```
 KV_REST_API_URL=your_upstash_redis_url

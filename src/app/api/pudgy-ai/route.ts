@@ -92,11 +92,9 @@ function getFallbackResponse(prompt: string): string {
 }
 
 async function callGaiaAI(prompt: string, stats: PudgyStats): Promise<string> {
-  // Temporarily disable AI calls for faster testing - remove this to re-enable AI
-  const DISABLE_AI_FOR_TESTING = false;
-  
-  if (DISABLE_AI_FOR_TESTING) {
-    console.log('AI disabled for testing, using fallback response for:', prompt.substring(0, 50) + '...');
+  // Check if API key is available
+  if (!process.env.GAIA_API_KEY) {
+    console.warn('GAIA_API_KEY not found, using fallback response');
     return getFallbackResponse(prompt);
   }
 
@@ -132,95 +130,30 @@ Always respond as your Pudgy self with:
 - Be playful, affectionate, and slightly demanding like real pets!`;
 
   try {
-    // Try different API endpoint formats and request bodies
-    const endpointConfigs = [
-      // Standard OpenAI format
-      {
-        url: 'https://0xecb625ec1121a9e2afca79fbb767ce8455b56c4e.gaia.domains/v1/chat/completions',
-        body: {
-          model: 'gaia',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: prompt }
-          ],
-          temperature: 0.8,
-          max_tokens: 200
-        }
+    // Use the new Gaia API endpoint with authentication
+    const response = await fetch('https://qwen72b.gaia.domains/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${process.env.GAIA_API_KEY}`
       },
-      // Alternative chat endpoint
-      {
-        url: 'https://0xecb625ec1121a9e2afca79fbb767ce8455b56c4e.gaia.domains/chat/completions',
-        body: {
-          model: 'gaia',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: prompt }
-          ],
-          temperature: 0.8,
-          max_tokens: 200
-        }
-      },
-      // Simple chat endpoint
-      {
-        url: 'https://0xecb625ec1121a9e2afca79fbb767ce8455b56c4e.gaia.domains/chat',
-        body: {
-          message: prompt,
-          system: systemPrompt,
-          max_tokens: 200
-        }
-      },
-      // Direct endpoint
-      {
-        url: 'https://0xecb625ec1121a9e2afca79fbb767ce8455b56c4e.gaia.domains/',
-        body: {
-          prompt: `${systemPrompt}\n\nUser: ${prompt}\n\nAssistant:`,
-          max_tokens: 200,
-          temperature: 0.8
-        }
-      },
-      // API endpoint
-      {
-        url: 'https://0xecb625ec1121a9e2afca79fbb767ce8455b56c4e.gaia.domains/api/chat',
-        body: {
-          message: prompt,
-          context: systemPrompt
-        }
-      }
-    ];
+      body: JSON.stringify({
+        model: 'Qwen/Qwen2.5-72B-Instruct',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.8,
+        max_tokens: 200,
+        stream: false
+      })
+    });
 
-    let response;
-    let lastError;
-
-    for (const config of endpointConfigs) {
-      try {
-        console.log(`Trying Gaia endpoint: ${config.url}`);
-        response = await fetch(config.url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: JSON.stringify(config.body)
-        });
-
-        if (response.ok) {
-          console.log(`Success with endpoint: ${config.url}`);
-          break;
-        } else {
-          const errorText = await response.text();
-          console.log(`Failed ${config.url}: ${response.status} - ${errorText}`);
-          lastError = new Error(`${config.url} returned ${response.status}: ${errorText}`);
-        }
-      } catch (err) {
-        console.log(`Error with ${config.url}:`, err);
-        lastError = err;
-        continue;
-      }
-    }
-
-    if (!response || !response.ok) {
-      console.error('All Gaia AI endpoints failed:', lastError);
-      throw lastError || new Error('All Gaia AI endpoints failed');
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Gaia AI API failed: ${response.status} - ${errorText}`);
+      throw new Error(`Gaia AI API returned ${response.status}: ${errorText}`);
     }
 
     const data = await response.json();
@@ -242,65 +175,6 @@ Always respond as your Pudgy self with:
     
   } catch (error) {
     console.error('Gaia AI error:', error);
-    
-    // Try to GET the root endpoint to see what it supports
-    try {
-      console.log('Trying GET request to root endpoint to check available endpoints...');
-      const rootResponse = await fetch('https://0xecb625ec1121a9e2afca79fbb767ce8455b56c4e.gaia.domains/', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
-      
-      if (rootResponse.ok) {
-        const rootData = await rootResponse.text();
-        console.log('Root endpoint response:', rootData);
-      } else {
-        console.log('Root endpoint failed:', rootResponse.status);
-      }
-    } catch (rootError) {
-      console.log('Root endpoint error:', rootError);
-    }
-
-    // Try a simple POST to root with just the message
-    try {
-      console.log('Trying simple POST to root with message...');
-      const simpleResponse = await fetch('https://0xecb625ec1121a9e2afca79fbb767ce8455b56c4e.gaia.domains/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: prompt,
-          context: systemPrompt
-        })
-      });
-      
-      if (simpleResponse.ok) {
-        const simpleData = await simpleResponse.json();
-        console.log('Simple POST success:', simpleData);
-        let content = simpleData.response || simpleData.answer || simpleData.message || simpleData.text;
-        if (content) {
-          // Clean up AI response - remove any thinking tags or internal processing
-          if (typeof content === 'string') {
-            // Remove <think> tags and their content
-            content = content.replace(/<think>[\s\S]*?<\/think>/gi, '');
-            // Remove any leading/trailing whitespace or newlines
-            content = content.trim();
-            // If content is empty after cleaning, use fallback
-            if (!content) {
-              content = "Hehe! 😄✨ I'm such a cute Pudgy pet! *wiggles adorably* 🐧💭💕";
-            }
-          }
-          return content;
-        }
-      } else {
-        console.log('Simple POST failed:', simpleResponse.status, await simpleResponse.text());
-      }
-    } catch (fallbackError) {
-      console.error('Simple POST also failed:', fallbackError);
-    }
     
     // Return a contextual fallback based on the prompt
     return getFallbackResponse(prompt);
